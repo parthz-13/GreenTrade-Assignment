@@ -1,4 +1,17 @@
 import { useState, useEffect } from "react";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  PieChart,
+  Pie,
+  Cell,
+  Legend,
+} from "recharts";
 import { getAnalytics } from "../services/api";
 import StatsCard from "../components/StatsCard";
 import "./Dashboard.css";
@@ -37,9 +50,7 @@ function Dashboard() {
     return (
       <div className="error-state">
         <p>Error: {error}</p>
-        <button className="btn btn-primary" onClick={loadAnalytics}>
-          Retry
-        </button>
+        <p>Might be due to cold-start because of Render's free-tier infrastructure. If not resolved after 30s, please reload the website.</p>
       </div>
     );
   }
@@ -57,10 +68,12 @@ function Dashboard() {
       (c) => c.certification_status === "Not Certified",
     )?.count || 0;
 
-  const maxCategoryCount = Math.max(
-    ...analytics.products_by_category.map((c) => c.count),
-    1,
-  );
+
+  const certificationData = [
+    { name: "Certified", value: certifiedCount, color: "#22C55E" },
+    { name: "Pending", value: pendingCount, color: "#F59E0B" },
+    { name: "Not Certified", value: notCertifiedCount, color: "#EF4444" },
+  ].filter((item) => item.value > 0);
 
   return (
     <div className="dashboard">
@@ -103,103 +116,72 @@ function Dashboard() {
       <div className="charts-grid">
         <div className="chart-card">
           <h3 className="chart-title">Products by Category</h3>
-          <div className="bar-chart">
-            {analytics.products_by_category.map((item, index) => (
-              <div className="bar-item" key={index}>
-                <div className="bar-label">{item.category}</div>
-                <div className="bar-container">
-                  <div
-                    className="bar-fill"
-                    style={{
-                      width: `${(item.count / maxCategoryCount) * 100}%`,
-                    }}
-                  >
-                    <span className="bar-value">{item.count}</span>
-                  </div>
-                </div>
-              </div>
-            ))}
+          <div className="chart-container">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart
+                data={analytics.products_by_category}
+                margin={{ top: 20, right: 30, left: 0, bottom: 5 }}
+              >
+                <CartesianGrid strokeDasharray="3 3" vertical={false} />
+                <XAxis
+                  dataKey="category"
+                  axisLine={false}
+                  tickLine={false}
+                  tick={{ fill: "#6B7280", fontSize: 12 }}
+                  interval={0}
+                />
+                <YAxis
+                  axisLine={false}
+                  tickLine={false}
+                  tick={{ fill: "#6B7280", fontSize: 12 }}
+                />
+                <Tooltip
+                  cursor={{ fill: "transparent" }}
+                  contentStyle={{
+                    borderRadius: "8px",
+                    border: "none",
+                    boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1)",
+                  }}
+                />
+                <Bar
+                  dataKey="count"
+                  fill="var(--primary)"
+                  radius={[4, 4, 0, 0]}
+                  barSize={40}
+                />
+              </BarChart>
+            </ResponsiveContainer>
           </div>
         </div>
 
         <div className="chart-card">
           <h3 className="chart-title">Certification Status</h3>
-          <div className="donut-chart">
-            <div className="donut-visual">
-              <svg viewBox="0 0 36 36" className="donut-svg">
-                <circle
-                  cx="18"
-                  cy="18"
-                  r="15.9155"
-                  fill="none"
-                  stroke="#F3F4F6"
-                  strokeWidth="3"
+          <div className="chart-container">
+            <ResponsiveContainer width="100%" height="100%">
+              <PieChart>
+                <Pie
+                  data={certificationData}
+                  cx="50%"
+                  cy="50%"
+                  innerRadius={60}
+                  outerRadius={80}
+                  paddingAngle={5}
+                  dataKey="value"
+                >
+                  {certificationData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={entry.color} />
+                  ))}
+                </Pie>
+                <Tooltip
+                  contentStyle={{
+                    borderRadius: "8px",
+                    border: "none",
+                    boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1)",
+                  }}
                 />
-                <circle
-                  cx="18"
-                  cy="18"
-                  r="15.9155"
-                  fill="none"
-                  stroke="#22C55E"
-                  strokeWidth="3"
-                  strokeDasharray={`${(certifiedCount / Math.max(analytics.total_products, 1)) * 100} 100`}
-                  strokeDashoffset="25"
-                  strokeLinecap="round"
-                />
-                <circle
-                  cx="18"
-                  cy="18"
-                  r="15.9155"
-                  fill="none"
-                  stroke="#F59E0B"
-                  strokeWidth="3"
-                  strokeDasharray={`${(pendingCount / Math.max(analytics.total_products, 1)) * 100} 100`}
-                  strokeDashoffset={`${100 - (certifiedCount / Math.max(analytics.total_products, 1)) * 100 + 25}`}
-                  strokeLinecap="round"
-                />
-                <circle
-                  cx="18"
-                  cy="18"
-                  r="15.9155"
-                  fill="none"
-                  stroke="#EF4444"
-                  strokeWidth="3"
-                  strokeDasharray={`${(notCertifiedCount / Math.max(analytics.total_products, 1)) * 100} 100`}
-                  strokeDashoffset={`${100 - ((certifiedCount + pendingCount) / Math.max(analytics.total_products, 1)) * 100 + 25}`}
-                  strokeLinecap="round"
-                />
-              </svg>
-              <div className="donut-center">
-                <span className="donut-total">{analytics.total_products}</span>
-                <span className="donut-label">Total</span>
-              </div>
-            </div>
-            <div className="donut-legend">
-              <div className="legend-item">
-                <span
-                  className="legend-dot"
-                  style={{ background: "#22C55E" }}
-                ></span>
-                <span className="legend-label">Certified</span>
-                <span className="legend-value">{certifiedCount}</span>
-              </div>
-              <div className="legend-item">
-                <span
-                  className="legend-dot"
-                  style={{ background: "#F59E0B" }}
-                ></span>
-                <span className="legend-label">Pending</span>
-                <span className="legend-value">{pendingCount}</span>
-              </div>
-              <div className="legend-item">
-                <span
-                  className="legend-dot"
-                  style={{ background: "#EF4444" }}
-                ></span>
-                <span className="legend-label">Not Certified</span>
-                <span className="legend-value">{notCertifiedCount}</span>
-              </div>
-            </div>
+                <Legend verticalAlign="bottom" height={36} iconType="circle" />
+              </PieChart>
+            </ResponsiveContainer>
           </div>
         </div>
       </div>
