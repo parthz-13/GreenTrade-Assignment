@@ -100,7 +100,7 @@ export function exportProductsToCSV(products) {
     product.id,
     `"${product.name}"`,
     product.category,
-    `"₹${product.price}"`,
+    `"$${product.price}"`,
     product.stock_quantity,
     `"${product.unit || ""}"`,
     product.certification_status,

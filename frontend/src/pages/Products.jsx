@@ -510,7 +510,7 @@ function Products() {
 
           <div className="form-row">
             <div className="form-group">
-              <label className="form-label">Price (₹) *</label>
+              <label className="form-label">Price ($) *</label>
               <input
                 type="number"
                 name="price"
