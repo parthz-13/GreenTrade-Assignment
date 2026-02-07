@@ -1,48 +1,38 @@
-const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8000/api";
+import axios from "axios";
 
-async function fetchAPI(endpoint, options = {}) {
-  const url = `${API_BASE_URL}${endpoint}`;
+const API_BASE_URL = "http://localhost:8000/api";
 
-  const config = {
-    headers: {
-      "Content-Type": "application/json",
-    },
-    ...options,
-  };
-
-  const response = await fetch(url, config);
-
-  if (!response.ok) {
-    const error = await response
-      .json()
-      .catch(() => ({ detail: "An error occurred" }));
-    throw new Error(error.detail || "Request failed");
-  }
-
-  if (response.status === 204) {
-    return null;
-  }
-
-  return response.json();
-}
+const api = axios.create({
+  baseURL: API_BASE_URL,
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
+api.interceptors.response.use(
+  (response) => {
+    return response.data;
+  },
+  (error) => {
+    const message =
+      error.response?.data?.detail || error.message || "Request failed";
+    return Promise.reject(new Error(message));
+  },
+);
 
 export async function getAnalytics() {
-  return fetchAPI("/analytics/summary");
+  return api.get("/analytics/summary");
 }
 
 export async function getSuppliers() {
-  return fetchAPI("/suppliers/");
+  return api.get("/suppliers/");
 }
 
 export async function getSupplier(id) {
-  return fetchAPI(`/suppliers/${id}`);
+  return api.get(`/suppliers/${id}`);
 }
 
 export async function createSupplier(supplierData) {
-  return fetchAPI("/suppliers/", {
-    method: "POST",
-    body: JSON.stringify(supplierData),
-  });
+  return api.post("/suppliers/", supplierData);
 }
 
 export async function getProducts(filters = {}) {
@@ -55,30 +45,19 @@ export async function getProducts(filters = {}) {
     params.append("certification_status", filters.certification_status);
   }
 
-  const queryString = params.toString();
-  const endpoint = queryString ? `/products/?${queryString}` : "/products/";
-
-  return fetchAPI(endpoint);
+  return api.get("/products/", { params });
 }
 
 export async function createProduct(productData) {
-  return fetchAPI("/products/", {
-    method: "POST",
-    body: JSON.stringify(productData),
-  });
+  return api.post("/products/", productData);
 }
 
 export async function updateProduct(id, productData) {
-  return fetchAPI(`/products/${id}`, {
-    method: "PUT",
-    body: JSON.stringify(productData),
-  });
+  return api.put(`/products/${id}`, productData);
 }
 
 export async function deleteProduct(id) {
-  return fetchAPI(`/products/${id}`, {
-    method: "DELETE",
-  });
+  return api.delete(`/products/${id}`);
 }
 
 export function exportProductsToCSV(products) {
