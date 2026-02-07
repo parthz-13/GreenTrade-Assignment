@@ -88,9 +88,7 @@ function Suppliers() {
     return (
       <div className="error-state">
         <p>Error: {error}</p>
-        <button className="btn btn-primary" onClick={loadSuppliers}>
-          Retry
-        </button>
+        <p>Might be due to cold-start because of Render's free-tier infrastructure. If not resolved after 30s, please reload the website.</p>
       </div>
     );
   }
