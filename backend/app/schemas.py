@@ -35,6 +35,7 @@ class ProductBase(BaseModel):
     category: CategoryEnum
     price: float = Field(..., gt=0)
     stock_quantity: int = Field(..., ge=0)
+    unit: str = Field(default="pcs")
     certification_status: CertificationStatusEnum
     certification_expiry_date: Optional[datetime] = None
     description: Optional[str] = None

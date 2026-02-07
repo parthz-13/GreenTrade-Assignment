@@ -36,9 +36,11 @@ class Product(Base):
     category = Column(SQLEnum(CategoryEnum), nullable=False)
     price = Column(Float, nullable=False)
     stock_quantity = Column(Integer, nullable=False)
+    unit = Column(String, nullable=False, default="pcs")  
     certification_status = Column(SQLEnum(CertificationStatusEnum), nullable=False)
     certification_expiry_date = Column(DateTime, nullable=True)
     description = Column(String, nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow)
 
     supplier = relationship("Supplier", back_populates="products")
+    
