@@ -19,16 +19,23 @@ A full-stack web application for managing sustainable product suppliers, trackin
 ## Screenshots
 
 ### Dashboard - Analytics Overview
-![Dashboard](screenshots/dashboard.png)
 *Real-time analytics showing supplier count, product inventory, category distribution, and certification status*
 
+
+<img width="1352" height="756" alt="Screenshot 2026-02-07 at 9 22 02 PM" src="https://github.com/user-attachments/assets/ad61c370-3063-4a51-922f-3dac09d7fc91" />
+
 ### Suppliers Management
-![Suppliers](screenshots/suppliers.png)
 *Complete supplier directory with contact information and associated products*
 
+
+<img width="1352" height="755" alt="Screenshot 2026-02-07 at 9 22 29 PM" src="https://github.com/user-attachments/assets/7cea415f-9ae6-4337-898c-41a18bba2c5b" />
+<img width="1335" height="733" alt="Screenshot 2026-02-07 at 9 23 01 PM" src="https://github.com/user-attachments/assets/83f44a32-ac91-4d7e-a216-bd0e91ac9b05" />
+
 ### Products Catalog
-![Products](screenshots/products.png)
 *Product inventory with advanced filtering by category and certification status*
+
+
+<img width="1352" height="761" alt="Screenshot 2026-02-07 at 9 23 16 PM" src="https://github.com/user-attachments/assets/4dadc6d5-644b-496e-959d-c65ca5c3cbad" />
 
 ---
 
@@ -67,12 +74,18 @@ A full-stack web application for managing sustainable product suppliers, trackin
 - Error handling with user-friendly messages  
 - Loading states for better UX  
 
-### Bonus Features
-✅ 
+### CSV Export Feature (Bonus)
+The products page includes an "Export to CSV" button that allows users to download all product data (with applied filters) as a CSV file. This feature is useful for:
+- Importing product data into spreadsheet applications
+- Creating offline backups
+- Sharing data with external stakeholders
+- Performing custom analysis in Excel/Google Sheets
+
+The exported CSV includes all product fields: name, category, price, stock quantity, unit, certification status, supplier name, and more.
 
 ---
 
-## 📋 API Endpoints
+## API Endpoints
 
 ### Base URL
 ```
@@ -110,13 +123,18 @@ https://greentrade-assignment.onrender.com
 
 ---
 
-## 🗄️ Database Schema
+## Database Schema
+- Suppliers
+  
+<img width="572" height="573" alt="Screenshot 2026-02-07 at 10 25 49 PM" src="https://github.com/user-attachments/assets/270f0748-d317-473d-b389-31e5148521b1" />
 
-
+- Products
+  
+<img width="698" height="666" alt="Screenshot 2026-02-07 at 10 24 55 PM" src="https://github.com/user-attachments/assets/9259ca65-ab43-4c81-a486-4968c02aa58f" />
 
 ---
 
-## 💻 Local Setup Instructions
+## Local Setup Instructions
 
 ### Prerequisites
 - Python 3.10+ installed
