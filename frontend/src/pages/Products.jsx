@@ -119,6 +119,11 @@ function Products() {
         supplier_id: parseInt(formData.supplier_id),
         price: parseFloat(formData.price),
         stock_quantity: parseInt(formData.stock_quantity),
+        certification_expiry_date:
+          formData.certification_status === "Certified" &&
+          formData.certification_expiry_date
+            ? formData.certification_expiry_date
+            : null,
       });
       setShowAddModal(false);
       loadData();
@@ -142,7 +147,11 @@ function Products() {
         stock_quantity: parseInt(formData.stock_quantity),
         certification_status: formData.certification_status,
         unit: formData.unit,
-        certification_expiry_date: formData.certification_expiry_date || null,
+        certification_expiry_date:
+          formData.certification_status === "Certified" &&
+          formData.certification_expiry_date
+            ? formData.certification_expiry_date
+            : null,
       });
       setShowEditModal(false);
       loadData();

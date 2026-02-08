@@ -13,8 +13,11 @@ api.interceptors.response.use(
     return response.data;
   },
   (error) => {
-    const message =
+    let message =
       error.response?.data?.detail || error.message || "Request failed";
+    if (typeof message === "object") {
+      message = JSON.stringify(message);
+    }
     return Promise.reject(new Error(message));
   },
 );
