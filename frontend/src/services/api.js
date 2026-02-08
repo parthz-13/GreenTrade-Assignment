@@ -7,12 +7,35 @@ const api = axios.create({
   headers: {
     "Content-Type": "application/json",
   },
+  timeout: 30000, 
 });
+
 api.interceptors.response.use(
   (response) => {
     return response.data;
   },
-  (error) => {
+  async (error) => {
+    const originalRequest = error.config;
+
+    if (
+      error.code === 'ECONNABORTED' || 
+      error.message === 'Network Error' || 
+      error.message.includes('timeout')
+    ) {
+      if (!originalRequest._retryCount) {
+        originalRequest._retryCount = 0;
+      }
+
+      if (originalRequest._retryCount < 2) {
+        originalRequest._retryCount += 1;
+        
+        // Wait 2 seconds before retry
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        
+        return api(originalRequest);
+      }
+    }
+
     let message =
       error.response?.data?.detail || error.message || "Request failed";
     if (typeof message === "object") {
