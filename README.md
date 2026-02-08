@@ -134,6 +134,69 @@ https://greentrade-assignment.onrender.com
 
 ---
 
+## Project Structure
+
+```
+greentrade-assignment/
+├── backend/
+│   ├── app/
+│   │   ├── __init__.py
+│   │   ├── main.py              # FastAPI application entry point
+│   │   ├── database.py          # Database connection & session
+│   │   ├── models.py            # SQLAlchemy models (Supplier, Product)
+│   │   ├── schemas.py           # Pydantic validation schemas
+│   │   ├── crud/                # CRUD operations
+│   │   │   ├── suppliers.py
+│   │   │   └── products.py
+│   │   └── routers/             # API route handlers
+│   │       ├── suppliers.py
+│   │       ├── products.py
+│   │       └── analytics.py
+│   |           
+│   ├── requirements.txt         # Python dependencies
+│   ├── .gitignore       
+│   ├── pyproject.toml           # Python dependencies
+│   ├── .env                     # Environment variables (gitignored)
+│              
+│
+├── frontend/
+│   ├── src/
+│   │   ├── components/          
+│   │   │   ├── Layout.css         
+│   │   │   ├── Layout.jsx         
+│   │   │   ├── Modal.css      
+│   │   │   ├── Modal.jsx      
+│   │   │   ├── Sidebar.css       
+│   │   │   ├── Sidebar.jsx       
+│   │   │   └── StatsCard.css         
+│   │   │   └── StatsCard.jsx         
+│   │   ├── pages/               # Page components
+│   │   │   ├── Dashboard.css
+│   │   │   ├── Dashboard.jsx
+│   │   │   ├── Products.css
+│   │   │   ├── Products.jsx
+│   │   │   └── Suppliers.css
+│   │   │   └── Suppliers.jsx
+│   │   ├── services/
+│   │   │   └── api.js           # Axios API client
+│   │   ├── App.jsx              # Main app with routing
+│   │   ├── App.css              
+│   │   ├── index.css             
+│   │   └── main.jsx             # Entry point
+│   ├── index.html
+│   ├── package.json
+│   ├── package-lock.json
+│   ├── vite.config.js
+│   |
+│   └── .env                     # Frontend environment vars
+│   └── .gitignore                 
+│
+├                 
+└── README.md                    
+```
+
+---
+
 ## Local Setup Instructions
 
 ### Prerequisites
