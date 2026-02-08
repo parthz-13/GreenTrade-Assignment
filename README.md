@@ -250,7 +250,23 @@ Visit **http://localhost:5173** in your browser!
 
 ---
 
+## Testing the Application
+### Test Scenarios
+1. **Create Supplier:** Add "Organic Valley Farms" from India
+2. **Create Product:** Add "Organic Honey" linked to a supplier
+3. **Filter Products:** Filter by "Organic Food" category
+4. **Update Product:** Change price and stock quantity
+5. **View Analytics:** Check dashboard for updated statistics
+6. **Delete Product:** Remove a product and verify analytics update
+7. **Export to CSV:** Click 'Export to CSV' button on Products page and download the CSV file
 
+### API Testing
+Use the interactive Swagger UI at `/docs` endpoint or use `Postman`:
+- Test all endpoints with custom data
+- View request/response schemas
+- Download OpenAPI specification
+
+---
 
 ## Design Decisions & Assumptions
 
@@ -278,22 +294,5 @@ Visit **http://localhost:5173** in your browser!
 - Suppliers can have zero products initially
 - The system is designed for internal use (no authentication implemented for this MVP)
 
----
 
-## Testing the Application
-### Test Scenarios
-1. **Create Supplier:** Add "Organic Valley Farms" from India
-2. **Create Product:** Add "Organic Honey" linked to a supplier
-3. **Filter Products:** Filter by "Organic Food" category
-4. **Update Product:** Change price and stock quantity
-5. **View Analytics:** Check dashboard for updated statistics
-6. **Delete Product:** Remove a product and verify analytics update
-
-### API Testing
-Use the interactive Swagger UI at `/docs` endpoint or use `Postman`:
-- Test all endpoints with custom data
-- View request/response schemas
-- Download OpenAPI specification
-
----
 
