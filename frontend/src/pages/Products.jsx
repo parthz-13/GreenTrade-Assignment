@@ -35,7 +35,6 @@ function Products() {
     certification_status: "",
     unit: "",
     certification_expiry_date: "",
-    description: "",
   });
   const [formError, setFormError] = useState("");
   const [submitting, setSubmitting] = useState(false);
@@ -78,7 +77,6 @@ function Products() {
       certification_status: "",
       unit: "",
       certification_expiry_date: "",
-      description: "",
     });
     setFormError("");
   }
@@ -101,7 +99,6 @@ function Products() {
       certification_expiry_date: product.certification_expiry_date
         ? product.certification_expiry_date.split("T")[0]
         : "",
-      description: product.description || "",
     });
     setShowEditModal(true);
   }
@@ -146,7 +143,6 @@ function Products() {
         certification_status: formData.certification_status,
         unit: formData.unit,
         certification_expiry_date: formData.certification_expiry_date || null,
-        description: formData.description || null,
       });
       setShowEditModal(false);
       loadData();
@@ -364,11 +360,6 @@ function Products() {
                       </div>
                       <div className="product-info">
                         <span className="product-name">{product.name}</span>
-                        {product.description && (
-                          <span className="product-desc">
-                            {product.description}
-                          </span>
-                        )}
                       </div>
                     </div>
                   </td>
@@ -699,16 +690,6 @@ function Products() {
                 required
               />
             </div>
-          </div>
-
-          <div className="form-group">
-            <label className="form-label">Description</label>
-            <textarea
-              name="description"
-              className="form-textarea"
-              value={formData.description}
-              onChange={handleInputChange}
-            />
           </div>
 
           <div className="modal-footer">
