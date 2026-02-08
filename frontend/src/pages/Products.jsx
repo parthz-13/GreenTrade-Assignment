@@ -33,6 +33,8 @@ function Products() {
     price: "",
     stock_quantity: "",
     certification_status: "",
+    unit: "",
+    certification_expiry_date: "",
     description: "",
   });
   const [formError, setFormError] = useState("");
@@ -74,6 +76,8 @@ function Products() {
       price: "",
       stock_quantity: "",
       certification_status: "",
+      unit: "",
+      certification_expiry_date: "",
       description: "",
     });
     setFormError("");
@@ -93,6 +97,10 @@ function Products() {
       price: product.price,
       stock_quantity: product.stock_quantity,
       certification_status: product.certification_status,
+      unit: product.unit || "",
+      certification_expiry_date: product.certification_expiry_date
+        ? product.certification_expiry_date.split("T")[0]
+        : "",
       description: product.description || "",
     });
     setShowEditModal(true);
@@ -136,6 +144,8 @@ function Products() {
         price: parseFloat(formData.price),
         stock_quantity: parseInt(formData.stock_quantity),
         certification_status: formData.certification_status,
+        unit: formData.unit,
+        certification_expiry_date: formData.certification_expiry_date || null,
         description: formData.description || null,
       });
       setShowEditModal(false);
@@ -203,7 +213,10 @@ function Products() {
     return (
       <div className="error-state">
         <p>Error: {error}</p>
-        <p>Might be due to cold-start because of Render's free-tier infrastructure. If not resolved after 30s, please reload the website.</p>
+        <p>
+          Might be due to cold-start because of Render's free-tier
+          infrastructure. If not resolved after 30s, please reload the website.
+        </p>
       </div>
     );
   }
@@ -504,9 +517,23 @@ function Products() {
                 ))}
               </select>
             </div>
+
+            {formData.certification_status === "Certified" && (
+              <div className="form-group">
+                <label className="form-label">Expiry Date *</label>
+                <input
+                  type="date"
+                  name="certification_expiry_date"
+                  className="form-input"
+                  value={formData.certification_expiry_date}
+                  onChange={handleInputChange}
+                  required
+                />
+              </div>
+            )}
           </div>
 
-          <div className="form-row">
+          <div className="form-row three-col">
             <div className="form-group">
               <label className="form-label">Price ($) *</label>
               <input
@@ -535,27 +562,22 @@ function Products() {
                 required
               />
             </div>
-          </div>
 
-          <div className="form-group">
-            <label className="form-label">Description</label>
-            <textarea
-              name="description"
-              className="form-textarea"
-              placeholder="Product description (optional)"
-              value={formData.description}
-              onChange={handleInputChange}
-            />
+            <div className="form-group">
+              <label className="form-label">Unit *</label>
+              <input
+                type="text"
+                name="unit"
+                className="form-input"
+                placeholder="kg, pcs..."
+                value={formData.unit}
+                onChange={handleInputChange}
+                required
+              />
+            </div>
           </div>
 
           <div className="modal-footer">
-            <button
-              type="button"
-              className="btn btn-secondary"
-              onClick={() => setShowAddModal(false)}
-            >
-              Cancel
-            </button>
             <button
               type="submit"
               className="btn btn-primary"
@@ -621,9 +643,23 @@ function Products() {
                 ))}
               </select>
             </div>
+
+            {formData.certification_status === "Certified" && (
+              <div className="form-group">
+                <label className="form-label">Expiry Date *</label>
+                <input
+                  type="date"
+                  name="certification_expiry_date"
+                  className="form-input"
+                  value={formData.certification_expiry_date}
+                  onChange={handleInputChange}
+                  required
+                />
+              </div>
+            )}
           </div>
 
-          <div className="form-row">
+          <div className="form-row three-col">
             <div className="form-group">
               <label className="form-label">Price ($) *</label>
               <input
@@ -646,6 +682,19 @@ function Products() {
                 className="form-input"
                 min="0"
                 value={formData.stock_quantity}
+                onChange={handleInputChange}
+                required
+              />
+            </div>
+
+            <div className="form-group">
+              <label className="form-label">Unit *</label>
+              <input
+                type="text"
+                name="unit"
+                className="form-input"
+                placeholder="kg, pcs..."
+                value={formData.unit}
                 onChange={handleInputChange}
                 required
               />

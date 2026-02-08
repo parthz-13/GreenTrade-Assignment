@@ -196,6 +196,10 @@
   gap: var(--space-md);
 }
 
+.form-row.three-col {
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
 .form-error {
   background: #fee2e2;
   color: #991b1b;
